@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  labels:
+    app: my-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-dashboard
+  template:
+    metadata:
+      labels:
+        app: my-dashboard
+    spec:
+      initContainers:
+        - name: wait-for-dependencies
+          image: busybox
+          command: [ 'sh', '-c', 'until nc -z mysql 3306 && nc -z rabbitmq 5672; do echo waiting; sleep 2; done;' ]
+      containers:
+        - name: dashboard
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          env:
+            - name: NODE_ENV
+              value: "{{ .Values.env.NODE_ENV }}"
+            - name: GUID
+              value: "{{ .Values.guid }}"  # Set the GUID as an environment variable
+          volumeMounts:
+            - name: view-json
+              mountPath: /usr/share/nginx/html/view.json
+              subPath: view.json
+            - name: logs
+              mountPath: /var/log/nginx:rw
+      restartPolicy: "{{ .Values.restartPolicy }}"
+      volumes:
+        - name: view-json
+          configMap:
+            name: dashboard-config
+        - name: logs
+          persistentVolumeClaim:
+            claimName: dashboard-logs

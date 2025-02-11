@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-config
+data:
+  view.json: |
+    {
+      "Switchboard": {
+        "Name": "Switchboard",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": ""
+      },
+      "Storage": {
+        "Name": "Storage",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/storage-rest"
+      },
+      "Crawler": {
+        "Name": "Crawler",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/crawler"
+      },
+      "Lexi": {
+        "Name": "Lexi",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/lexi"
+      },
+      "Embeddings": {
+        "Name": "Embeddings",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/embeddings"
+      },
+      "Vector": {
+        "Name": "Vector",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/vector"
+      },
+      "Processor": {
+        "Name": "Processor",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/processor"
+      },
+      "Assistant": {
+        "Name": "Assistant",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/assistant"
+      },
+      "Control": {
+        "Name": "Control Plane",
+        "Endpoint": "https://control.view.io:8401/",
+        "AuthToken": "default",
+        "HealthCheckPath": ""
+      },
+      "Orchestrator": {
+        "Name": "Orchestrator",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/orchestrator"
+      },
+      "Config": {
+        "Name": "Config",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/config"
+      },
+      "Graph": {
+        "Name": "Graph Database",
+        "Endpoint": "http://localhost:8701/",
+        "AuthToken": "default",
+        "HealthCheckPath": ""
+      },
+      "Director": {
+        "Name": "Director",
+        "Endpoint": "http://localhost:8000/",
+        "AuthToken": "default",
+        "HealthCheckPath": "healthcheck/director"
+      },
+      "RabbitMQ": {
+        "Name": "RabbitMQ",
+        "Endpoint": "ws://localhost:15674/",
+        "AuthToken": "default",
+        "HealthCheckPath": "metrics"
+      }
+    }

@@ -1,0 +1,13 @@
+image:
+  repository: viewio/view-dashboard
+  tag: v1.1.0
+
+service:
+  type: ClusterIP
+  port: 80
+
+env:
+  NODE_ENV: production
+
+restartPolicy: "Always"
+
