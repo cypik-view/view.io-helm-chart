@@ -3,11 +3,11 @@ entries:
   my-dashboard:
   - apiVersion: v2
     appVersion: v1.1.0
-    created: "2025-02-12T16:36:51.455369601+05:30"
+    created: "2025-02-12T16:49:33.459913251+05:30"
     description: A Helm chart for deploying the view.io dashboard
-    digest: 8392773744bee0c4273ebc91c9de69cba04f9f6e496f4c17510115183be2a421
+    digest: 9b376415af993ce5aa1ddb9fef3176aca010cacf65cd6d46404aaa2cbbe06dc3
     name: my-dashboard
     urls:
     - my-dashboard-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-12T16:36:51.454732709+05:30"
+generated: "2025-02-12T16:49:33.459320603+05:30"
