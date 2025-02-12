@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dashboard-logs
+  name: {{ .Release.Name }}-logs
   labels:
-    app: my-dashboard
+    app: {{ .Chart.Name }}
 spec:
   accessModes:
-    - ReadWriteMany
+    - {{ .Values.pvc.accessMode }}
   resources:
     requests:
-      storage: 1Gi
+      storage: {{ .Values.pvc.storage }}
