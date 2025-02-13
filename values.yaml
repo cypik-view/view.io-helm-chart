@@ -11,10 +11,15 @@ replicaCount: 1
 
 env:
   NODE_ENV: production
-  GUID: "00000000-0000-0000-0000-000000000000"
+  GUID: "1164b9f2-f988-4975-b1a6-e2c9f79bd228"
 
 restartPolicy: Always
 
 pvc:
   accessMode: ReadWriteMany
   storage: 1Gi
+
+view-config:
+  env:
+    - name: VIEW_ACCOUNT_GUID
+      value: "1164b9f2-f988-4975-b1a6-e2c9f79bd228"
