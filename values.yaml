@@ -17,3 +17,4 @@ restartPolicy: Always
 pvc:
   accessMode: ReadWriteMany
   storage: 1Gi
+
