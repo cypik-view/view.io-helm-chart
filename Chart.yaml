@@ -3,3 +3,60 @@ name: my-dashboard
 description: A Helm chart for deploying the view.io dashboard
 version: 0.1.0
 appVersion: "v1.1.0"
+
+
+dependencies:
+  - name: mysql
+    repository: https://cypik-view.github.io/mysql-helm-chart/
+    version: 0.1.0
+  - name: rabbitmq
+    repository: https://cypik-view.github.io/rabbitmq-helm-chart/
+    version: 0.1.0
+  - name: pgvector
+    repository: https://cypik-view.github.io/pgvector-helm-chart/
+    version: 0.1.0
+  - name: view-vector
+    repository:  https://cypik-view.github.io/view-vector-helm-chart/
+    version: 0.1.0
+  - name: view-ollama
+    repository: https://cypik-view.github.io/view-ollama-helm-chart/
+    version: 0.1.0
+  - name: view-orchestrator
+    repository:  https://cypik-view.github.io/view-orchestrator-helm-chart/
+    version: 0.1.0
+  - name: processor
+    repository: https://cypik-view.github.io/processor-helm-chart/
+    version: 0.1.0
+  - name: view-storage
+    repository: https://cypik-view.github.io/view-storage-helm-chart/
+    version: 0.1.0
+  - name: switchboard
+    repository: https://cypik-view.github.io/switchboard-helm-chart/
+    version: 0.1.0
+  - name: syslogserver
+    repository: https://cypik-view.github.io/syslogserver-helm-chart/
+    version: 0.1.0
+  - name: view-assistant
+    repository: https://cypik-view.github.io/view-assistant-helm-chart
+    version: 0.1.0
+  - name: view-cadvisor
+    repository: https://cypik-view.github.io/view-cadvisor-helm-chart/
+    version: 0.1.0
+  - name: view-config
+    repository: https://cypik-view.github.io/view-config-helm-chart/
+    version: 0.1.0
+  - name: crawler
+    repository: https://cypik-view.github.io/crawler-helm-chart/
+    version: 0.1.0
+  - name: view-director
+    repository: https://cypik-view.github.io/director-helm-chart/
+    version: 0.1.0
+  - name: view-embeddings
+    repository: https://cypik-view.github.io/view-embeddings-helm-chart/
+    version: 0.1.0
+  - name: view-lexi
+    repository: https://cypik-view.github.io/view-lexi-helm-chart/
+    version: 0.1.0
+# - name: litegraph
+#    repository: https://cypik-view.github.io/litegraph-helm-chart/
+#    version: 1.0.0
