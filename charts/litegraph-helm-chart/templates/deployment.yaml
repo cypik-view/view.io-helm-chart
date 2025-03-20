@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litegraph
+  labels:
+    app: litegraph
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: litegraph
+  template:
+    metadata:
+      labels:
+        app: litegraph
+    spec:
+      containers:
+        - name: litegraph
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: LITEGRAPH_DB_PATH
+              value: "/data/litegraph.db"
+            - name: VIEW_ACCOUNT_GUID
+              value: {{ .Values.env.VIEW_ACCOUNT_GUID | quote }}
+            - name: VIEW_DATABASE_TYPE
+              value: {{ .Values.env.VIEW_DATABASE_TYPE | quote }}
+            - name: VIEW_DATABASE_FILE
+              value: {{ .Values.env.VIEW_DATABASE_FILE | quote }}
+            - name: VIEW_DATABASE_HOST
+              value: {{ .Values.env.VIEW_DATABASE_HOST | quote }}
+            - name: VIEW_DATABASE_PORT
+              value: {{ .Values.env.VIEW_DATABASE_PORT | quote }}
+            - name: VIEW_DATABASE_NAME
+              value: {{ .Values.env.VIEW_DATABASE_NAME | quote }}
+            - name: VIEW_DATABASE_USER
+              value: {{ .Values.env.VIEW_DATABASE_USER | quote }}
+            - name: VIEW_DATABASE_PASS
+              value: {{ .Values.env.VIEW_DATABASE_PASS | quote }}
+            - name: VIEW_CONSOLE_LOGGING
+              value: {{ .Values.env.VIEW_CONSOLE_LOGGING | quote }}
+            - name: VIEW_CONTROL_HOSTNAME
+              value: {{ .Values.env.VIEW_CONTROL_HOSTNAME | quote }}
+            - name: VIEW_CONTROL_PORT
+              value: {{ .Values.env.VIEW_CONTROL_PORT | quote }}
+            - name: VIEW_CONTROL_SSL
+              value: {{ .Values.env.VIEW_CONTROL_SSL | quote }}
+            - name: VIEW_CONTROL_SWVERSION
+              value: {{ .Values.env.VIEW_CONTROL_SWVERSION | quote }}
+            - name: TERM
+              value: {{ .Values.env.TERM | quote }}
+          volumeMounts:
+            - name: logs
+              mountPath: /app/logs
+            - name: litegraph-config
+              mountPath: /app/litegraph.json
+              subPath: litegraph.json
+#            - name: litegraph-db-config
+#              mountPath: /app/litegraph.db
+#              subPath: litegraph.db
+      volumes:
+        - name: logs
+          persistentVolumeClaim:
+            claimName: litegraph-data
+        - name: litegraph-db-config
+          configMap:
+            name: litegraph-db-config
+            items:
+              - key: litegraph.db
+                path: litegraph.db
+        - name: litegraph-config
+          configMap:
+            name: litegraph-config
+            items:
+              - key: litegraph.json
+                path: litegraph.json

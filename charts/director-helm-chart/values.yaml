@@ -1,0 +1,66 @@
+# Default values for Helm Chart
+
+# Replica count for the deployment
+replicaCount: 1
+
+# Image details
+image:
+  repository: viewio/view-vector
+  tag: v1.1.0
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8311
+  targetPort: 8311
+
+# Environment variables
+env:
+  VIEW_ACCOUNT_GUID: '00000-00000-000-00-000000'
+  VIEW_DATABASE_TYPE: Mysql
+  VIEW_DATABASE_HOST: mysql
+  VIEW_DATABASE_PORT: 3306
+  VIEW_DATABASE_NAME: view
+  VIEW_DATABASE_USER: root
+  VIEW_DATABASE_FILE: view.db
+  VIEW_DATABASE_PASS: password
+  VIEW_CONSOLE_LOGGING: 1
+  VIEW_CONTROL_HOSTNAME: control.view.io
+  VIEW_CONTROL_PORT: 8403
+  VIEW_CONTROL_SSL: true
+  VIEW_CONTROL_SWVERSION: v1.0.0
+  TERM: 'xterm-256color'
+
+pvc:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "standard"
+  resources:
+    requests:
+      storage: 1Gi
+
+volumeMounts:
+  config:
+    name: view-director-config
+    mountPath: /app/config
+    subPath: view.json
+    readOnly: false
+  data:
+    name: data-volume
+    mountPaths:
+      - /app/assets
+      - /app/logs
+      - /app/temp
+      - /app/webhookreq
+      - /app/webhookresp
+      - /app/controllog
+      - /app/controlapi
+      - /app/controltoken
+
+
+configMap:
+  name: view-director-config
+  key: view.json
+  path: view.json

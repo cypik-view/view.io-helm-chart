@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "view-lexi.fullname" . }}-test-connection"
+  labels:
+    {{- include "view-lexi.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "view-lexi.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

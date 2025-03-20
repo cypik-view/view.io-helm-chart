@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  serviceName: {{ .Values.service.name }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: password
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+
+            - name: mysql-init
+              mountPath: /docker-entrypoint-initdb.d/01_setup.sql
+              subPath: 01_setup.sql
+
+            - name: mysql-tenants
+              mountPath: /docker-entrypoint-initdb.d/02_tenants.sql
+              subPath: 02_tenants.sql
+      volumes:
+        - name: mysql-init
+          configMap:
+            name: {{ .Values.configMap.init.name }}
+            items:
+              - key: {{ .Values.configMap.init.key }}
+                path: 01_setup.sql
+
+        - name: mysql-tenants
+          configMap:
+            name: {{ .Values.configMap.tenants.name }}
+            items:
+              - key: {{ .Values.configMap.tenants.key }}
+                path: 02_tenants.sql
+
+        - name: mysql-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.name }}

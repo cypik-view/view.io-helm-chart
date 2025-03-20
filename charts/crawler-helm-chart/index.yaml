@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  crawler:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-12T12:12:57.455907834+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 4e766f2749cea82f861ea22358369fc8ed8e714f1b89e96d69709d9e3eb50654
+    name: crawler
+    type: application
+    urls:
+    - crawler-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-12T12:12:57.455051162+05:30"

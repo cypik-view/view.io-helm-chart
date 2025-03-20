@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "view-storage.fullname" . }}
+  labels:
+    app: {{ include "view-storage.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "view-storage.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "view-storage.fullname" . }}
+    spec:
+      containers:
+        - name: storage
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+          volumeMounts:
+            - name: syslog-config
+              mountPath: {{ .Values.mountPaths.config }}
+              readOnly: false
+              subPath: view.json
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.assets }}
+              subPath: assets
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.logs }}
+              subPath: logs
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.temp }}
+              subPath: temp
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.disk }}
+              subPath: disk
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.compress }}
+              subPath: compress
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.metadata }}
+              subPath: metadata
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.multipart }}
+              subPath: multipart
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.webhookreq }}
+              subPath: webhookreq
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.webhookresp }}
+              subPath: webhookresp
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.controllog }}
+              subPath: controllog
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.controlapi }}
+              subPath: controlapi
+            - name: storage-volume
+              mountPath: {{ .Values.mountPaths.controltoken }}
+              subPath: controltoken
+      volumes:
+        - name: syslog-config
+          configMap:
+            name: {{ .Chart.Name }}-config
+            items:
+              - key: view.json
+                path: view.json
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: {{ include "view-storage.fullname" . }}-pvc

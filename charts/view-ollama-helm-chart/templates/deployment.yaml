@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-cpu
+spec:
+  replicas: {{ .Values.ollama.replicas }}
+  selector:
+    matchLabels:
+      app: ollama-cpu
+  template:
+    metadata:
+      labels:
+        app: ollama-cpu
+    spec:
+      containers:
+        - name: ollama
+          image: {{ .Values.ollama.image }}
+          volumeMounts:
+            - mountPath: {{ .Values.ollama.volumePath }}
+              name: ollama-cpu-volume
+      volumes:
+        - name: ollama-cpu-volume
+          persistentVolumeClaim:
+            claimName: ollama-cpu-pvc
+      restartPolicy: Always
+---
+  {{- if .Values.ollamaGPU.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-gpu
+spec:
+  replicas: {{ .Values.ollamaGPU.replicas }}
+  selector:
+    matchLabels:
+      app: ollama-gpu
+  template:
+    metadata:
+      labels:
+        app: ollama-gpu
+    spec:
+      containers:
+        - name: ollama
+          image: {{ .Values.ollama.image }}
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "{{ .Values.ollamaGPU.NVIDIA_VISIBLE_DEVICES }}"
+          volumeMounts:
+            - mountPath: {{ .Values.ollama.volumePath }}
+              name: ollama-gpu-volume
+          resources:
+            reservations:
+              devices:
+                - driver: nvidia
+                  count: all
+                  capabilities: [gpu]
+      volumes:
+        - name: ollama-gpu-volume
+          persistentVolumeClaim:
+            claimName: ollama-gpu-pvc
+      restartPolicy: Always
+  {{- end }}

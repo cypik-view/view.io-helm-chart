@@ -1,0 +1,38 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.service.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }}
+    spec:
+      containers:
+        - name: {{ .Values.service.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+          volumeMounts:
+            {{- range .Values.volumes.mountPaths }}
+            - name: {{ $.Values.volumes.sharedStorageName }}
+              mountPath: {{ .path }}
+              subPath: {{ .subPath }}
+              readOnly: {{ .readOnly | default false }}
+            {{- end }}
+      volumes:
+        - name: {{ .Values.volumes.configMapName }}
+          configMap:
+            name: {{ .Values.volumes.configMapName }}
+        - name: {{ .Values.volumes.sharedStorageName }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.claimName }}

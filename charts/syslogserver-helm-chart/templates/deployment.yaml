@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: syslogserver
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.config.udpPort | default 514 }}
+          volumeMounts:
+            - name: syslog-config
+              mountPath: "/app/syslog.json"
+              subPath: "syslog.json"
+            - name: syslog-logs
+              mountPath: /app/logs/
+          resources:
+            {{- toYaml .Values.resources | nindent 10 }}
+      restartPolicy: Always
+      volumes:
+        - name: syslog-config
+          configMap:
+            name: syslog-config
+        - name: syslog-logs
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-pvc

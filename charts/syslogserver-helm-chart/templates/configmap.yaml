@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: syslog-config
+data:
+  syslog.json: |
+    {
+        "UdpPort": 514,
+        "DisplayTimestamps": false,
+        "LogFileDirectory": "./logs/",
+        "LogFilename": "log.txt",
+        "LogWriterIntervalSec": 10
+    }

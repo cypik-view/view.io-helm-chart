@@ -1,0 +1,44 @@
+replicaCount: 1
+
+image:
+  repository: rabbitmq
+  tag: "3-management-alpine"
+  pullPolicy: IfNotPresent
+
+service:
+  amqpPort: 5672
+  managementPort: 15672
+  stompPort: 15674
+
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+
+# Persistence settings for RabbitMQ
+persistence:
+  enabled: true
+  claimName: rabbitmq-pvc-claim
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+env:
+  defaultVHost: "/"
+  defaultUser: "guest"
+  defaultPass: "guest"
+  loadDefinitions: "/etc/rabbitmq/definitions.json"
+
+volumeMounts:
+  - name: shared-storage
+    mountPath: /var/lib/rabbitmq
+    subPath: .data
+  - name: shared-storage
+    mountPath: /var/log/rabbitmq
+    subPath: .logs

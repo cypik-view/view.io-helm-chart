@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  view-ollama:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-12T16:16:23.493575661+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 0f6fdd4e331c6ae4cc8b78ca84c2001cc001f2aa2221eba07ff6371b659480a7
+    name: view-ollama
+    type: application
+    urls:
+    - view-ollama-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-12T16:16:23.490000765+05:30"

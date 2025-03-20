@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  view-orchestrator:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-13T15:13:26.546139957+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 3edb357f65b49eaaa21ea9b9ccd3f1d096522573b2c433ca9dd9a05a6d86e031
+    name: view-orchestrator
+    type: application
+    urls:
+    - view-orchestrator-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-13T15:13:26.545330585+05:30"

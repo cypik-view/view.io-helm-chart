@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  view-vector:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-13T12:34:20.06281561+05:30"
+    description: A Helm chart for Kubernetes
+    digest: f5c6c8f2d1aefe03576fc1b1fc7bf7877fa3df98ee88075d77de242f574b40a8
+    name: view-vector
+    type: application
+    urls:
+    - view-vector-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-13T12:34:20.061403412+05:30"

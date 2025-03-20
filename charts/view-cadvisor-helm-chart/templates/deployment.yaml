@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            privileged: {{ .Values.security.privileged }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+#          volumeMounts:
+#            - name: shared-cadvisor-volume
+#              mountPath: /rootfs
+#              readOnly: {{ .Values.persistence.readOnly }}
+#            - name: shared-cadvisor-volume
+#              mountPath: /var/run
+#              readOnly: {{ .Values.persistence.readOnly }}
+#            - name: shared-cadvisor-volume
+#              mountPath: /sys
+#              readOnly: {{ .Values.persistence.readOnly }}
+#            - name: shared-cadvisor-volume
+#              mountPath: /var/lib/docker
+#              readOnly: {{ .Values.persistence.readOnly }}
+#            - name: shared-cadvisor-volume
+#              mountPath: /dev/disk
+#              readOnly: {{ .Values.persistence.readOnly }}
+      volumes:
+        - name: shared-cadvisor-volume
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-pvc

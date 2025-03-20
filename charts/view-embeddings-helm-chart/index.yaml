@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  view-embeddings:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-12T13:23:37.032613531+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 5fb8ab61c16192b358e082a266270f4a433e66a82c3d81c8627887ddc720c4f3
+    name: view-embeddings
+    type: application
+    urls:
+    - view-embeddings-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-12T13:23:37.03204748+05:30"

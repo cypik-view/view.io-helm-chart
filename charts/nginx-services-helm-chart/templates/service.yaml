@@ -1,0 +1,23 @@
+{{- range .Values.nginxServices }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+spec:
+  type: ClusterIP
+  ports:
+    {{- if .ports }}
+      {{- range .ports }}
+      - name: port-{{ .port }}  # Unique name based on port number
+        port: {{ .port }}
+        targetPort: {{ .targetPort }}
+      {{- end }}
+      {{- else }}
+      - name: port-{{ .port }}  # Unique name for single port services
+        port: {{ .port }}
+        targetPort: {{ .port }}
+      {{- end }}
+  selector:
+    app: {{ .name }}
+---
+{{- end }}

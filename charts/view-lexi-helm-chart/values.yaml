@@ -1,0 +1,58 @@
+image:
+  repository: "viewio/view-lexi"
+  tag: "v1.1.0"
+  pullPolicy: "IfNotPresent"
+
+replicaCount: 1
+
+service:
+  name: "lexi-service"
+  type: "ClusterIP"
+  port: 8201
+  targetPort: 8201
+
+persistence:
+  enabled: true
+  storageClass: "standard"
+  accessModes:
+    - "ReadWriteMany"
+  size: "5Gi"
+  claimName: "lexi-shared-pvc"
+
+configMap:
+  configName: "lexi-config"
+  configKey: "view.json"
+  sourceDocsConfig: "sourcedocs-config"
+  sourceDocsKey: "default"
+
+env:
+  VIEW_ACCOUNT_GUID: "00000000-0000-0000-0000-000000000000"
+  VIEW_DATABASE_TYPE: "Mysql"
+  VIEW_DATABASE_HOST: "mysql"
+  VIEW_DATABASE_PORT: 3306
+  VIEW_DATABASE_NAME: "view"
+  VIEW_DATABASE_USER: "root"
+  VIEW_DATABASE_PASS: "password"
+  VIEW_CONSOLE_LOGGING: "1"
+  VIEW_CONTROL_HOSTNAME: "control.view.io"
+  VIEW_CONTROL_PORT: 8403
+  VIEW_CONTROL_SSL: "true"
+  VIEW_CONTROL_SWVERSION: "v1.0.0"
+  TERM: "xterm-256color"
+
+volumes:
+  sharedStorage: "lexi-shared-pvc"
+  mountPaths:
+    - path: "/app/config"
+      subPath: "view.json"
+    - path: "/app/assets"
+    - path: "/app/logs"
+    - path: "/app/sourcedocs/default"
+      subPath: "default"
+    - path: "/app/temp"
+    - path: "/app/ingest"
+    - path: "/app/webhookreq"
+    - path: "/app/webhookresp"
+    - path: "/app/controllog"
+    - path: "/app/controlapi"
+    - path: "/app/controltoken"

@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: jchristn/syslogserver
+  tag: v2.0.0
+  pullPolicy: IfNotPresent
+
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+  requests:
+    cpu: "250m"
+    memory: "128Mi"
+
+
+pvc:
+  accessModes:
+    - ReadWriteOnce
+  storage: "1Gi"
+  storageClassName: "standard"
+
+service:
+  port: 514
+  targetPort: 514
+  type: ClusterIP
+
+config:
+  udpPort: 514
+

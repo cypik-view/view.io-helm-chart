@@ -1,0 +1,45 @@
+embeddings:
+  image:
+    repository: "viewio/view-embeddings"
+    tag: "v1.1.0"
+    pullPolicy: IfNotPresent
+
+  port: 8301
+
+  env:
+    EMBEDDINGS_PRELOAD_MODELS: "all-MiniLM-L6-v2"
+    CORS_ORIGINS: "*"
+    HF_HOME: "/app/models/"
+    VIEW_ACCOUNT_GUID: "00000000-0000-0000-0000-000000000000"
+    VIEW_DATABASE_TYPE: Mysql
+    VIEW_DATABASE_FILE: view.db
+    VIEW_DATABASE_HOST: mysql
+    VIEW_DATABASE_PORT: 3306
+    VIEW_DATABASE_NAME: view
+    VIEW_DATABASE_USER: root
+    VIEW_DATABASE_PASS: password
+    VIEW_CONSOLE_LOGGING: 1
+    VIEW_CONTROL_HOSTNAME: control.view.io
+    VIEW_CONTROL_PORT: 8403
+    VIEW_CONTROL_SSL: true
+    VIEW_CONTROL_SWVERSION: v1.0.0
+    TERM: "xterm-256color"
+
+  storage:
+    size: "1Gi"
+    storageClass: "standard"
+    mountPath: "/app/models"
+    hostPath: "./working/embeddings/models"
+
+  replicas: 1
+  restartPolicy: Always
+
+  service:
+    type: ClusterIP
+    port: 8301
+
+dependsOn:
+  mysql:
+    condition: service_healthy
+  rabbitmq:
+    condition: service_healthy

@@ -1,0 +1,166 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-view-director-config
+data:
+  view.json: |
+    {
+      "CreatedUtc": "2024-12-07T08:03:19.270649Z",
+      "CreatedBy": "Setup",
+      "SoftwareVersion": "v1.1.0",
+      "Node": {
+        "GUID": "80b0faa4-f5c6-4b43-9cf7-6768d0d317ee",
+        "Name": "View Director Server",
+        "Hostname": "localhost",
+        "InstanceType": "DirectorServer",
+        "LastStartUtc": "2024-12-07T08:03:19.392435Z",
+        "CreatedUtc": "2024-12-07T08:03:19.392435Z"
+      },
+      "Logging": {
+        "Servers": [
+          {
+            "Hostname": "127.0.0.1",
+            "Port": 514,
+            "RandomizePorts": false,
+            "MinimumPort": 65000,
+            "MaximumPort": 65535
+          }
+        ],
+        "LogDirectory": "./logs/",
+        "LogFilename": "./view.log",
+        "ConsoleLogging": true,
+        "EnableColors": false,
+        "MinimumSeverity": 0
+      },
+      "Database": {
+        "Filename": "./view.db",
+        "Type": "Sqlite",
+        "Port": 0,
+        "Debug": {
+          "EnableForQueries": false,
+          "EnableForResults": false
+        }
+      },
+      "Server": {
+        "Region": "us-west-1",
+        "MaxRequestBodySize": 268435456,
+        "MaxRangeReadSize": 268435456,
+        "HeaderApiKey": "x-api-key",
+        "AdminApiKey": "viewsysadmin",
+        "TokenExpirationMinutes": 1440
+      },
+      "Storage": {
+        "TempDirectory": "./temp/",
+        "CompressionDirectory": "./compress/",
+        "MetadataDirectory": "./metadata/",
+        "MultipartUploadDirectory": "./multipart/",
+        "WebhookRequestDirectory": "./webhookreq/",
+        "WebhookResponseDirectory": "./webhookresp/",
+        "IngestQueueDirectory": "./ingest/",
+        "DataFlowsDirectory": "./dataflows/",
+        "DataFlowMapsDirectory": "./dataflowmaps/",
+        "DataFlowLogsDirectory": "./dataflowlogs/",
+        "PackagesDirectory": "./packages/",
+        "BinariesDirectory": "./binaries/",
+        "SourceDocumentsDirectory": "./sourcedocs/",
+        "ExpirationCheckIntervalSeconds": 60,
+        "MaxMultipartUploadSeconds": 86400,
+        "BlobDirectory": "./blobs/"
+      },
+      "Rest": {
+        "Hostname": "*",
+        "Port": 8511,
+        "Prefix": "http://*:8511/",
+        "IO": {
+          "StreamBufferSize": 65536,
+          "MaxRequests": 1024,
+          "ReadTimeoutMs": 10000,
+          "MaxIncomingHeadersSize": 65536,
+          "EnableKeepAlive": false
+        },
+        "Ssl": {
+          "Enable": false,
+          "MutuallyAuthenticate": false,
+          "AcceptInvalidAcertificates": true
+        },
+        "Headers": {
+          "IncludeContentLength": true,
+          "DefaultHeaders": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS, HEAD, GET, PUT, POST, DELETE, PATCH",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Expose-Headers": "",
+            "Accept": "*/*",
+            "Accept-Language": "en-US, en",
+            "Accept-Charset": "ISO-8859-1, utf-8",
+            "Cache-Control": "no-cache",
+            "Connection": "close",
+            "Host": "localhost:8000"
+          }
+        },
+        "AccessControl": {
+          "DenyList": {},
+          "PermitList": {},
+          "Mode": "DefaultPermit"
+        },
+        "Debug": {
+          "AccessControl": false,
+          "Routing": false,
+          "Requests": false,
+          "Responses": false
+        }
+      },
+      "Websocket": {
+        "Enable": false,
+        "Ssl": false,
+        "Hostname": "*",
+        "Port": 8513,
+        "Prefix": "ws://*:8513/",
+        "PermittedIpAddresses": [],
+        "HeartbeatIntervalMs": 10000
+      },
+      "RabbitMq": [],
+      "Webhook": {
+        "PollIntervalMs": 30000,
+        "ResponseRetentionMs": 86400000,
+        "BatchSize": 4
+      },
+      "Control": {
+        "AccountGUID": "",
+        "SoftwareInstanceGUID": "",
+        "Ssl": true,
+        "Hostname": "control.view.io",
+        "Port": 8403,
+        "LogProxy": {
+          "Hostname": "127.0.0.1",
+          "Port": 65200,
+          "RandomizePorts": true,
+          "MinimumPort": 65000,
+          "MaximumPort": 65535
+        },
+        "Prefix": "wss://control.view.io:8403/",
+        "LogDirectory": "./controllog/",
+        "ApiUsageDirectory": "./controlapi/",
+        "TokensGeneratedDirectory": "./controltoken/",
+        "LogDrainIntervalMs": 60000,
+        "ApiUsageDrainIntervalMs": 60000,
+        "TokenUsageDrainIntervalMs": 60000
+      },
+      "Encryption": {
+        "Key": "0000000000000000000000000000000000000000000000000000000000000000",
+        "Iv": "00000000000000000000000000000000",
+        "Salt": "00000000000000000000000000000000"
+      },
+      "Debug": {
+        "Authentication": false,
+        "Locks": false,
+        "Exceptions": false,
+        "Requests": false,
+        "Enumeration": false,
+        "SearchQueries": false,
+        "DatabaseQueries": false,
+        "ProcessorRequests": false,
+        "ProcessorResponses": false,
+        "Broadcasts": false
+      }
+    }

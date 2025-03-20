@@ -1,0 +1,16 @@
+{{- if .Values.ingress }}
+  {{- if .Values.ingress.enabled | default false }}
+Your application is accessible at:
+
+  {{- if .Values.ingress.hosts }}
+  http://{{ (index .Values.ingress.hosts 0).host }}
+  {{- else }}
+  (No ingress host defined)
+  {{- end }}
+
+  {{- else }}
+Ingress is disabled. Enable it in `values.yaml` to expose your application.
+  {{- end }}
+{{- else }}
+(No ingress settings found in values.yaml)
+{{- end }}

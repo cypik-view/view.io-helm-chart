@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: jchristn/litegraph
+  tag: v2.1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8701
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+env:
+  VIEW_ACCOUNT_GUID: '00000000-0000-0000-0000-000000000000'
+  VIEW_DATABASE_TYPE: Mysql
+  VIEW_DATABASE_FILE: view.db
+  VIEW_DATABASE_HOST: mysql
+  VIEW_DATABASE_PORT: 3306
+  VIEW_DATABASE_NAME: view
+  VIEW_DATABASE_USER: root
+  VIEW_DATABASE_PASS: password
+  VIEW_CONSOLE_LOGGING: 1
+  VIEW_CONTROL_HOSTNAME: control.view.io
+  VIEW_CONTROL_PORT: 8403
+  VIEW_CONTROL_SSL: true
+  VIEW_CONTROL_SWVERSION: v1.0.0
+  TERM: 'xterm-256color'

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: mysql
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  name: mysql
+  type: ClusterIP
+  port: 3306
+
+pvc:
+  name: mysql-pv-claim
+  accessModes: ReadWriteOnce
+  storage: 20Gi
+
+secret:
+  name: mysql-secret
+  password: "password"
+
+configMap:
+  init:
+    name: init-config
+    key: init.sql
+  tenants:
+    name: tenants-config
+    key: tenants.sql

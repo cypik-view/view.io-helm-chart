@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lexi
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: lexi
+  template:
+    metadata:
+      labels:
+        app: lexi
+    spec:
+      containers:
+        - name: lexi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+          volumeMounts:
+            {{- range .Values.volumes.mountPaths }}
+            - name: shared-storage
+              mountPath: {{ .path }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+            {{- end }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.configMap.configName }}
+            items:
+              - key: {{ .Values.configMap.configKey }}
+                path: {{ .Values.configMap.configKey }}
+        - name: sourcedocs-volume
+          configMap:
+            name: {{ .Values.configMap.sourceDocsConfig }}
+            items:
+              - key: {{ .Values.configMap.sourceDocsKey }}
+                path: {{ .Values.configMap.sourceDocsKey }}
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.claimName }}

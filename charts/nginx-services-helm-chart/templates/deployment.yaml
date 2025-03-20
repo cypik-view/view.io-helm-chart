@@ -1,0 +1,35 @@
+{{- range .Values.nginxServices }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      containers:
+        - name: {{ .name }}
+          image: nginx:latest
+          ports:
+            - containerPort: {{ .port | default "8000" }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: log-volume
+              mountPath: /var/log/nginx
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .name }}-config
+        - name: log-volume
+          persistentVolumeClaim:
+            claimName: {{ .name }}-pvc
+---
+{{- end }}

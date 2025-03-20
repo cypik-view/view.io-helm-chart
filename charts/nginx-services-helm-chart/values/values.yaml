@@ -1,0 +1,73 @@
+nginxServices:
+  - name: nginx-embeddings
+    port: 8301
+    config: nginx-embeddings.conf
+  - name: nginx-semcell
+    port: 8341
+    config: nginx-semcell.conf
+  - name: nginx-processor
+    port: 8321
+    config: nginx-processor.conf
+  - name: nginx-storage-rest
+    port: 8601
+    config: nginx-storage-rest.conf
+  - name: nginx-storage-s3
+    port: 8603
+    config: nginx-storage-s3.conf
+  - name: nginx-lexi
+    port: 8201
+    config: nginx-lexi.conf
+  - name: nginx-crawler
+    port: 8101
+    config: nginx-crawler.conf
+  - name: nginx-orchestrator
+    port: 8501
+    config: nginx-orchestrator.conf
+  - name: nginx-config
+    port: 8601
+    config: nginx-config.conf
+  - name: nginx-vector
+    port: 8311
+    config: nginx-vector.conf
+  - name: nginx-view
+    ports:
+      - port: 8000
+        targetPort: 8000
+      - port: 8001
+        targetPort: 8001
+      - port: 8002
+        targetPort: 8002
+      - port: 8003
+        targetPort: 8003
+      - port: 8101
+        targetPort: 8101
+      - port: 8103
+        targetPort: 8103
+      - port: 8201
+        targetPort: 8201
+      - port: 8203
+        targetPort: 8203
+      - port: 8301
+        targetPort: 8301
+      - port: 8303
+        targetPort: 8303
+      - port: 8311
+        targetPort: 8311
+      - port: 8313
+        targetPort: 8313
+      - port: 8321
+        targetPort: 8321
+      - port: 8323
+        targetPort: 8323
+      - port: 8341
+        targetPort: 8341
+      - port: 8343
+        targetPort: 8343
+      - port: 8501
+        targetPort: 8501
+      - port: 8503
+        targetPort: 8503
+      - port: 8601
+        targetPort: 8601
+      - port: 8603
+        targetPort: 8603

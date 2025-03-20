@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  nginx-services:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-11T18:27:03.351602779+05:30"
+    description: A Helm chart for Kubernetes
+    digest: 61e83a42f4ee9272fec57969e02d49f0a4f6d6a2ad45765dab7c04a417528c02
+    name: nginx-services
+    type: application
+    urls:
+    - https://github.com/cypik-view/nginx-services-helm-chart.git/charts/nginx-services-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-11T18:27:03.350300814+05:30"

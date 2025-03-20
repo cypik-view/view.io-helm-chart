@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  rabbitmq:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-13T14:48:35.235483093+05:30"
+    description: A Helm chart for Kubernetes
+    digest: d9ffec8f945d6d395868de1b98094c307924242d12e70a6c4ed3f5bd9ce7f42e
+    name: rabbitmq
+    type: application
+    urls:
+    - rabbitmq-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-13T14:48:35.234782508+05:30"

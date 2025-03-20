@@ -1,0 +1,17 @@
+# Global values for Ollama deployments
+ollama:
+  image: "ollama/ollama" # Default image for both CPU and GPU deployments
+  volumePath: "/root/.ollama" # Mount path for persistent volume
+  pvcSize: "1Gi" # Persistent volume size
+  replicas: 1 # Default replica count for CPU deployment
+
+ollamaGPU:
+  enabled: true # Set to false if GPU deployment is not needed
+  replicas: 1 # Default replica count for GPU deployment
+  NVIDIA_VISIBLE_DEVICES: "all" # Environment variable for GPU access
+
+pvc:
+  storageClassName: "standard" # Storage class for PVC
+
+service:
+  port: 11434 # Default port for the services

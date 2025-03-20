@@ -1,0 +1,9 @@
+apiVersion: v2
+name: litegraph
+version: 1.0.0
+description: A Helm chart for deploying LiteGraph
+maintainers:
+  - name: suresh
+    email: hellohello8524@gmail.com
+type: application
+dependencies: []

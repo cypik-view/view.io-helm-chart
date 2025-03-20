@@ -1,0 +1,46 @@
+# templates/deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: vector
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          {{- range $key, $value := .Values.env }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          volumeMounts:
+            - name: {{ .Values.volumeMounts.config.name }}
+              mountPath: {{ .Values.volumeMounts.config.mountPath }}
+              subPath: {{ .Values.volumeMounts.config.subPath }}
+              readOnly: {{ .Values.volumeMounts.config.readOnly }}
+            {{- range .Values.volumeMounts.data.mountPaths }}
+            - name: {{ $.Values.volumeMounts.data.name }}
+              mountPath: {{ . }}
+            {{- end }}
+      volumes:
+        - name: {{ .Values.configMap.name }}
+          configMap:
+            name: {{ .Chart.Name }}-view-director-config
+            items:
+              - key: {{ .Values.configMap.key }}
+                path: {{ .Values.configMap.path }}
+        - name: {{ .Values.volumeMounts.data.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-pvc

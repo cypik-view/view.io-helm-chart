@@ -1,0 +1,52 @@
+replicaCount: 1
+
+image:
+  repository: jchristn/switchboard
+  tag: v1.0.0
+  pullPolicy: IfNotPresent
+
+service:
+  name: switchboard
+  type: ClusterIP
+  port: 8000
+  targetPort: 8000
+
+env:
+  VIEW_ACCOUNT_GUID: "00000000-0000-0000-0000-000000000000"
+  VIEW_DATABASE_TYPE: "Mysql"
+  VIEW_DATABASE_HOST: "mysql"
+  VIEW_DATABASE_PORT: "3306"
+  VIEW_DATABASE_NAME: "view"
+  VIEW_DATABASE_USER: "root"
+  VIEW_DATABASE_PASS: "password"
+  VIEW_CONSOLE_LOGGING: "1"
+  VIEW_CONTROL_HOSTNAME: "control.view.io"
+  VIEW_CONTROL_PORT: "8403"
+  VIEW_CONTROL_SSL: "true"
+  VIEW_CONTROL_SWVERSION: "v1.0.0"
+  TERM: "xterm-256color"
+
+persistence:
+  enabled: true
+  storageClass: "standard"
+  size: 1Gi
+  accessMode: ReadWriteOnce
+  pvcName: "switchboard-pvc"
+
+volumeMounts:
+  configVolume:
+    name: "config-volume"
+    mountPath: "/app/sb.json"
+    subPath: "sb.json"
+  logVolume:
+    name: "log-volume"
+    mountPath: "/app/logs"
+
+volumes:
+  configVolume:
+    name: "config-volume"
+    configMapName: "switchboard-config"
+  logVolume:
+    name: "log-volume"
+    persistentVolumeClaim:
+      claimName: "switchboard-pvc"

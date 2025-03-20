@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-orchestrator
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-orchestrator
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-orchestrator
+    spec:
+      containers:
+        - name: {{ .Values.container.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: "{{ $value }}"
+            {{- end }}
+          volumeMounts:
+            - name: {{ .Values.volumeMounts.config.name }}
+              mountPath: {{ .Values.volumeMounts.config.mountPath }}
+              subPath: {{ .Values.volumeMounts.config.subPath }}
+            {{- range .Values.volumeMounts.shared }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+             # subPath: {{ .subPath }}
+            {{- end }}
+          ports:
+            - containerPort: {{ .Values.container.port }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Chart.Name }}-config
+        - name: shared-storage
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-shared-pvc

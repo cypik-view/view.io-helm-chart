@@ -1,0 +1,728 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: switchboard-config
+data:
+  sb.json: |-
+    {
+      "Logging": {
+        "Servers": [
+          {
+            "Hostname": "127.0.0.1",
+            "Port": 514,
+            "RandomizePorts": false,
+            "MinimumPort": 65000,
+            "MaximumPort": 65535
+          }
+        ],
+        "LogDirectory": "./logs/",
+        "LogFilename": "./switchboard.log",
+        "ConsoleLogging": true,
+        "EnableColors": true,
+        "MinimumSeverity": 0
+      },
+      "Endpoints": [
+        {
+          "Identifier": "endpoint-storage-rest",
+          "Name": "View Storage (REST)",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/storage-rest",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/objects/{ObjectGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}/parts/{MultipartUploadPartGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/storage-rest",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}/parts/{MultipartUploadPartGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/objects/{ObjectGuid}"
+            ],
+            "PUT": [
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/objects/{ObjectGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}/parts"
+            ],
+            "POST": [
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/objects",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}"
+            ],
+            "DELETE": [
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/objects/{ObjectGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/buckets/{BucketGuid}/uploads/{MultipartUploadGuid}/parts/{MultipartUploadPartGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/storage-rest": "/"
+            },
+            "HEAD": {
+              "/healthcheck/storage-rest": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-storage-rest"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-crawler",
+          "Name": "View Crawler",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/crawler",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters/{CrawlFilterGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}/enumeration",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans/{CrawlPlanGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules/{CrawlScheduleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories/{DataRepositoryGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/crawler",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters/{CrawlFilterGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans/{CrawlPlanGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules/{CrawlScheduleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories/{DataRepositoryGuid}"
+            ],
+            "PUT": [
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters/{CrawlFilterGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans/{CrawlPlanGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules/{CrawlScheduleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories/{DataRepositoryGuid}"
+            ],
+            "POST": [
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}/start",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}/stop",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}/cancel"
+            ],
+            "DELETE": [
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlfilters/{CrawlFilterGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawloperations/{CrawlOperationGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlplans/{CrawlPlanGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/crawlschedules/{CrawlScheduleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/datarepositories/{DataRepositoryGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/crawler": "/"
+            },
+            "HEAD": {
+              "/healthcheck/crawler": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-crawler"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-lexi",
+          "Name": "View Lexi",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/lexi",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents/{SourceDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/topterms"
+            ],
+            "HEAD": [
+              "/healthcheck/lexi",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents/{SourceDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/ingestqueue/{IngestQueueGuid}"
+            ],
+            "PUT": [
+              "/{ApiVersion}/tenants/{TenantGuid}/collections",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents"
+            ],
+            "POST": [
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents"
+            ],
+            "DELETE": [
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents/{SourceDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}/documents",
+              "/{ApiVersion}/tenants/{TenantGuid}/ingestqueue/{IngestQueueGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/lexi": "/"
+            },
+            "HEAD": {
+              "/healthcheck/lexi": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-lexi"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-embeddings",
+          "Name": "View Embeddings",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/embeddings"
+            ],
+            "HEAD": [
+              "/healthcheck/embeddings"
+            ],
+            "PUT": [],
+            "POST": [
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddings",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddings/preload"
+            ],
+            "DELETE": []
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/embeddings": "/"
+            },
+            "HEAD": {
+              "/healthcheck/embeddings": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-embeddings"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-vector",
+          "Name": "View Vector",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/vector",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/enumerate",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/stats",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}/chunks",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}/chunks/{SemanticChunkGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/vector",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}/chunks/{SemanticChunkGuid}"
+            ],
+            "PUT": [],
+            "POST": [
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/enumerate",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/find",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/query",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/search"
+            ],
+            "DELETE": [
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/truncate",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}/documents/{VectorDocumentGuid}/cells/{SemanticCellGuid}/chunks/{SemanticChunkGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/vector": "/"
+            },
+            "HEAD": {
+              "/healthcheck/vector": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-vector"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-processor",
+          "Name": "View Processor",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/processor",
+              "/v1.0/tenants/{TenantGuid}/dataflows/logs/{DataFlowRequestGuid}",
+              "/v1.0/tenants/{TenantGuid}/dataflows/performance/{DataFlowRequestGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/processor"
+            ],
+            "PUT": [],
+            "POST": [
+              "/v1.0/tenants/{TenantGuid}/processing/cleanup",
+              "/v1.0/tenants/{TenantGuid}/processing/lexiprocessing",
+              "/v1.0/tenants/{TenantGuid}/processing/semanticcell",
+              "/v1.0/tenants/{TenantGuid}/processing/typedetection",
+              "/v1.0/tenants/{TenantGuid}/processing/udr",
+              "/v1.0/tenants/{TenantGuid}/processing"
+            ],
+            "DELETE": []
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/processor": "/"
+            },
+            "HEAD": {
+              "/healthcheck/processor": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-processor"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-assistant",
+          "Name": "View Assistant",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/assistant"
+            ],
+            "HEAD": [
+              "/healthcheck/assistant"
+            ],
+            "PUT": [],
+            "POST": [
+              "/v1.0/tenants/{TenantGuid}/assistant/chat",
+              "/v1.0/tenants/{TenantGuid}/assistant/models",
+              "/v1.0/tenants/{TenantGuid}/assistant/models/delete",
+              "/v1.0/tenants/{TenantGuid}/assistant/models/pull",
+              "/v1.0/tenants/{TenantGuid}/assistant/rag"
+            ],
+            "DELETE": []
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/assistant": "/"
+            },
+            "HEAD": {
+              "/healthcheck/assistant": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "BlockHttp10": true,
+          "LogRequestFull": false,
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-assistant"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-orchestrator",
+          "Name": "View Orchestrator",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/orchestrator",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}/logfile",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}/logs",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}/performance",
+              "/{ApiVersion}/tenants/{TenantGuid}/steps",
+              "/{ApiVersion}/tenants/{TenantGuid}/steps/{StepMetadataGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers/{TriggerGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/orchestrator",
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/steps/{StepMetadataGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers/{TriggerGuid}"
+            ],
+            "PUT": [
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/",
+              "/{ApiVersion}/tenants/{TenantGuid}/steps",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers/{TriggerGuid}"
+            ],
+            "POST": [],
+            "DELETE": [
+              "/{ApiVersion}/tenants/{TenantGuid}/dataflows/{DataFlowGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/steps/{StepMetadataGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/triggers/{TriggerGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/orchestrator": "/"
+            },
+            "HEAD": {
+              "/healthcheck/orchestrator": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-orchestrator"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-director",
+          "Name": "View Director",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/director",
+              "/{ApiVersion}/connections"
+            ],
+            "HEAD": [
+              "/healthcheck/director"
+            ],
+            "PUT": [],
+            "POST": [],
+            "DELETE": [
+              "/{ApiVersion}/connections/{WebsocketConnectionGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/director": "/"
+            },
+            "HEAD": {
+              "/healthcheck/director": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-director"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        },
+        {
+          "Identifier": "endpoint-config",
+          "Name": "View Config",
+          "ParameterizedUrls": {
+            "GET": [
+              "/healthcheck/config",
+              "/{ApiVersion}/nodes",
+              "/{ApiVersion}/nodes/{NodeGuid}",
+              "/{ApiVersion}/token",
+              "/{ApiVersion}/token/details",
+              "/{ApiVersion}/token/validate",
+              "/{ApiVersion}/token/tenants",
+              "/{ApiVersion}/tenants/",
+              "/{ApiVersion}/tenants/{TenantGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs/public/{BlobGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs/{BlobGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections",
+              "/{ApiVersion}/tenants/{TenantGuid}/collections/{CollectionGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials/{CredentialGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules/{EmbeddingsRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys/{EncryptionKeyGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories/{GraphRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules/{MetadataRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/objectlocks/{ObjectLockGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools/{PoolGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/users",
+              "/{ApiVersion}/tenants/{TenantGuid}/users/{UserGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookevents",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookevents/{WebhookEventGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules/{WebhookRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets/{WebhookTargetGuid}"
+            ],
+            "HEAD": [
+              "/healthcheck/config",
+              "/{ApiVersion}/nodes/{NodeGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs/{BlobGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials/{CredentialGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules/{EmbeddingsRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys/{EncryptionKeyGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories/{GraphRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules/{MetadataRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools/{PoolGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/users/{UserGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookevents/{WebhookEventGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules/{WebhookRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets/{WebhookTargetGuid}"
+            ],
+            "PUT": [
+              "/{ApiVersion}/tenants",
+              "/{ApiVersion}/tenants/{TenantGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials/{CredentialGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules/{EmbeddingsRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys/{EncryptionKeyGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories/{GraphRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules/{MetadataRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools/{PoolGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/users",
+              "/{ApiVersion}/tenants/{TenantGuid}/users/{UserGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules/{WebhookRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets/{WebhookTargetGuid}"
+            ],
+            "POST": [],
+            "DELETE": [
+              "/{ApiVersion}/nodes/{NodeGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/blobs/{BlobGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/credentials/{CredentialGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/embeddingsrules/{EmbeddingsRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/encryptionkeys/{EncryptionKeyGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/graphrepositories/{GraphRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/metadatarules/{MetadataRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/objectlocks/{ObjectLockGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/pools/{PoolGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/users/{UserGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/vectorrepositories/{VectorRepositoryGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhookrules/{WebhookRuleGuid}",
+              "/{ApiVersion}/tenants/{TenantGuid}/webhooktargets/{WebhookTargetGuid}"
+            ]
+          },
+          "RewriteUrls": {
+            "GET": {
+              "/healthcheck/config": "/"
+            },
+            "HEAD": {
+              "/healthcheck/config": "/"
+            }
+          },
+          "TimeoutMs": 60000,
+          "RateLimitInterval": "Minutes",
+          "RateLimit": 10,
+          "LoadBalancing": "RoundRobin",
+          "StickySessions": false,
+          "MaxRequestBodySize": 536870912,
+          "OriginServers": [
+            "origin-config"
+          ],
+          "UseGlobalBlockedHeaders": true,
+          "BlockedHeaders": []
+        }
+      ],
+      "Origins": [
+        {
+          "Identifier": "origin-storage-rest",
+          "Name": "View Storage (REST)",
+          "Hostname": "nginx-storage-rest",
+          "Port": 8001,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-crawler",
+          "Name": "View Crawler",
+          "Hostname": "nginx-crawler",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-lexi",
+          "Name": "View Lexi",
+          "Hostname": "nginx-lexi",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-embeddings",
+          "Name": "View Embeddings",
+          "Hostname": "nginx-embeddings",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-vector",
+          "Name": "View Vector",
+          "Hostname": "nginx-vector",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-processor",
+          "Name": "View Processor",
+          "Hostname": "nginx-processor",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-assistant",
+          "Name": "View Assistant",
+          "Hostname": "nginx-assistant",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-orchestrator",
+          "Name": "View Orchestrator",
+          "Hostname": "nginx-orchestrator",
+          "Port": 8000,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-director",
+          "Name": "View Director",
+          "Hostname": "nginx-director",
+          "Port": 8511,
+          "Ssl": false
+        },
+        {
+          "Identifier": "origin-config",
+          "Name": "View Config",
+          "Hostname": "nginx-config",
+          "Port": 8000,
+          "Ssl": false
+        }
+      ],
+      "BlockedHeaders": [
+        "alt-svc",
+        "connection",
+        "host",
+        "keep-alive",
+        "proxy-authorization",
+        "proxy-connection",
+        "set-cookie",
+        "transfer-encoding",
+        "upgrade",
+        "via",
+        "x-forwarded-for",
+        "x-request-id"
+      ],
+      "Webserver": {
+        "Hostname": "*",
+        "Port": 8000,
+        "IO": {
+          "StreamBufferSize": 65536,
+          "MaxRequests": 1024,
+          "ReadTimeoutMs": 10000,
+          "MaxIncomingHeadersSize": 65536,
+          "EnableKeepAlive": false
+        },
+        "Ssl": {
+          "Enable": false,
+          "MutuallyAuthenticate": false,
+          "AcceptInvalidAcertificates": true
+        },
+        "Headers": {
+          "IncludeContentLength": true,
+          "DefaultHeaders": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS, HEAD, GET, PUT, POST, DELETE, PATCH",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Expose-Headers": "",
+            "Accept": "*/*",
+            "Accept-Language": "en-US, en",
+            "Accept-Charset": "ISO-8859-1, utf-8",
+            "Cache-Control": "no-cache",
+            "Connection": "close",
+            "Host": "localhost:8000"
+          }
+        },
+        "AccessControl": {
+          "DenyList": {},
+          "PermitList": {},
+          "Mode": "DefaultPermit"
+        },
+        "Debug": {
+          "AccessControl": false,
+          "Routing": false,
+          "Requests": false,
+          "Responses": false
+        }
+      }
+    }

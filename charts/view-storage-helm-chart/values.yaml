@@ -1,0 +1,49 @@
+replicaCount: 1
+
+image:
+  repository: viewio/view-storage
+  tag: v1.1.0
+
+env:
+  VIEW_ACCOUNT_GUID: '00000000-0000-0000-0000-000000000000'  # Supply your View account GUID here
+  VIEW_DATABASE_TYPE: Mysql  # SqlServer, Mysql, Postgresql, or Sqlite (do not use Sqlite)
+  VIEW_DATABASE_FILE: view.db  # Only used with Sqlite (do not use Sqlite)
+  VIEW_DATABASE_HOST: mysql  # DNS hostname
+  VIEW_DATABASE_PORT: 3306  # Generally 1433 for SQL Server, 3306 for MySQL, 5432 for Postgresql
+  VIEW_DATABASE_NAME: view  # Database name
+  VIEW_DATABASE_USER: root
+  VIEW_DATABASE_PASS: password
+  VIEW_CONSOLE_LOGGING: 1  # 1 to enable console logging, 0 to disable
+  VIEW_CONTROL_HOSTNAME: control.view.io  # Modify to change the control server endpoint
+  VIEW_CONTROL_PORT: 8403  # Modify to change the control server websockets port
+  VIEW_CONTROL_SSL: true  # true to enable SSL, false to disable
+  VIEW_CONTROL_SWVERSION: v1.0.0  # Modify to change the software version reported to control server
+  TERM: 'xterm-256color'
+
+pvc:
+  enabled: true
+  storageClass: "standard"
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80  # Default value for targetPort
+
+mountPaths:
+  config: /app/config
+  assets: /app/assets
+  logs: /app/logs
+  temp: /app/temp
+  disk: /app/disk
+  compress: /app/compress
+  metadata: /app/metadata
+  multipart: /app/multipart
+  webhookreq: /app/webhookreq
+  webhookresp: /app/webhookresp
+  controllog: /app/controllog
+  controlapi: /app/controlapi
+  controltoken: /app/controltoken
+
+
