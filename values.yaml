@@ -18,3 +18,53 @@ pvc:
   accessMode: ReadWriteMany
   storage: 1Gi
 
+
+
+view-vector:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-orchestrator:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+pgvector:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-director:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+processor:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-embeddings:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-lexi:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+switchboard:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+crawler:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-storage:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+
+view-config:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
+
+view-assistant:
+  env:
+    VIEW_ACCOUNT_GUID: "0000-000000-0000-000-000-000"
