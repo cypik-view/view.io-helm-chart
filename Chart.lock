@@ -1,54 +1,54 @@
 dependencies:
 - name: mysql
-  repository: https://cypik-view.github.io/mysql-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: rabbitmq
-  repository: https://cypik-view.github.io/rabbitmq-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: pgvector
-  repository: https://cypik-view.github.io/pgvector-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-vector
-  repository: https://cypik-view.github.io/view-vector-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-ollama
-  repository: https://cypik-view.github.io/view-ollama-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-orchestrator
-  repository: https://cypik-view.github.io/view-orchestrator-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: processor
-  repository: https://cypik-view.github.io/processor-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-storage
-  repository: https://cypik-view.github.io/view-storage-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: switchboard
-  repository: https://cypik-view.github.io/switchboard-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: syslogserver
-  repository: https://cypik-view.github.io/syslogserver-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-assistant
-  repository: https://cypik-view.github.io/view-assistant-helm-chart
+  repository: ""
   version: 0.1.0
 - name: view-cadvisor
-  repository: https://cypik-view.github.io/view-cadvisor-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-config
-  repository: https://cypik-view.github.io/view-config-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: crawler
-  repository: https://cypik-view.github.io/crawler-helm-chart/
-  version: 0.1.0
-- name: view-director
-  repository: https://cypik-view.github.io/director-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-embeddings
-  repository: https://cypik-view.github.io/view-embeddings-helm-chart/
+  repository: ""
   version: 0.1.0
 - name: view-lexi
-  repository: https://cypik-view.github.io/view-lexi-helm-chart/
+  repository: ""
   version: 0.1.0
-digest: sha256:57c483413592ba2ca29e8ec70d4a26b446a40a5dd104b22ac60a8119cd5a03b9
-generated: "2025-02-26T08:53:58.233216087+05:30"
+- name: litegraph
+  repository: ""
+  version: 1.0.0
+digest: sha256:cc996bd462b03d1d8c5d5ec80eab7a2e99c661292af40acc652e086d64706505
+generated: "2025-03-21T12:10:14.878057544+05:30"

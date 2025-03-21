@@ -2,15 +2,11 @@ apiVersion: v1
 entries:
   litegraph:
   - apiVersion: v2
-    created: "2025-02-12T10:44:34.496805576+05:30"
+    created: "2025-03-21T12:02:38.775159962+05:30"
     description: A Helm chart for deploying LiteGraph
-    digest: 16dba714c418a56b5a80750c0b650e165d75eda7f93a303ec06f0ac3e1d8258d
-    maintainers:
-    - email: hellohello8524@gmail.com
-      name: suresh
+    digest: 25d91cc5c421ea700f1243ea768fb6db831c6f99e3eeca59af7e9fd0f17885ff
     name: litegraph
-    type: application
     urls:
     - litegraph-1.0.0.tgz
     version: 1.0.0
-generated: "2025-02-12T10:44:34.494111775+05:30"
+generated: "2025-03-21T12:02:38.774387559+05:30"
